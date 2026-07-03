@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mme"
+version = "0.1.0"
+description = "Mixture of Mesh Experts (MME) with Random Walk Transformer Gating"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Amir Belder" },
+]
+keywords = ["3d", "mesh", "mixture-of-experts", "moe", "random-walk", "transformer", "geometry"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.22",
+    "scipy>=1.9",
+    "trimesh>=3.20",
+    "pyyaml>=6.0",
+    "tqdm>=4.60",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.0"]
+tf = ["tensorflow>=2.15"]
+all = ["torch>=2.0", "tensorflow>=2.15"]
+dev = ["pytest>=7.0", "ruff>=0.1", "mypy>=1.0"]
+
+[project.scripts]
+mme = "mme.cli:main"
+
+[project.entry-points."mme.experts"]
+# Third-party packages can register experts here, e.g.:
+# my_expert = "my_package.experts:MyExpert"
+
+[project.urls]
+Homepage = "https://github.com/amirbelder/MME-Mixture-of-Mesh-Experts"
+Repository = "https://github.com/amirbelder/MME-Mixture-of-Mesh-Experts"
+
+[tool.setuptools.packages.find]
+include = ["mme*"]
+exclude = ["tests*", "examples*", "docs*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

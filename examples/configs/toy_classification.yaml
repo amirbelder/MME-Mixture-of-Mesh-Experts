@@ -1,0 +1,39 @@
+num_classes: 4
+
+# Imported before experts are looked up so their @register_expert side effects run.
+register_modules:
+  - examples.toy_expert
+
+experts:
+  - name: toy_mlp_small
+  - name: toy_mlp_wide
+  - name: toy_mlp_deep
+
+gate:
+  kind: mme_torch
+  kwargs:
+    feature_dim: 32
+    walk_len: 16
+    num_walks: 4
+    num_heads: 4
+    num_layers: 2
+
+data:
+  kind: synthetic
+  samples_per_class: 16
+  noise: 0.05
+  val_fraction: 0.2
+
+loss:
+  schedule: linear
+  alpha_start: 0.0
+  alpha_end: 0.05
+  beta_start: 0.0
+  beta_end: 0.05
+
+train:
+  epochs: 20
+  batch_size: 8
+  lr: 0.001
+  device: auto
+  ckpt_dir: runs/toy

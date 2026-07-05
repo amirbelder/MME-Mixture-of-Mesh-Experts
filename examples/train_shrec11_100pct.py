@@ -1,6 +1,6 @@
-"""SHREC-11 Split-16 (16 train / 4 test) with three 100%-accuracy experts.
+"""SHREC-11 Split-16 (16 train / 4 test) with three 100%-accuracy.
 
-Experts (all report 100% on SHREC-11 Split-16 in their papers):
+Experts:
     - SubdivNet         (Hu et al., SIGGRAPH 2022)   env/subdivnet/
     - MeshMAE           (Liang et al., ECCV 2022)    env/meshmae/
     - Laplacian2Mesh    (Dong et al., 2023)          env/laplacian2mesh/
@@ -69,20 +69,14 @@ EXPERT_SPECS = (
 
 
 # ---------- gate ----------------------------------------------------------
-# TODO(amir): replace with your weighted random gate implementation.
 # For a starting point that already works, uncomment one of these:
 #
-# (a) frozen seeded random weights, soft combination:
-#   from mme.gate.random_gate import RandomGate
-#   def build_gate(): return RandomGate(num_experts=3, feature_dim=32, seed=1234)
-#   COMBINE = "weighted_softmax"
-#
-# (b) paper's trained walk-hier transformer gate (needs TF):
+# (a) paper's trained walk-hier transformer gate (needs TF):
 #   from mme.gate.walk_hier_gate import WalkHierGate
 #   def build_gate(): return WalkHierGate(num_experts=3, walk_len=100, num_walks=32)
 #   COMBINE = "weighted_softmax"
 #
-# (c) pure-torch re-impl of the paper's gate (approximate, differentiable):
+# (b) pure-torch re-impl of the paper's gate (approximate, differentiable):
 #   from mme.gate.mme_gate_torch import MMEGateTorch
 #   def build_gate(): return MMEGateTorch(num_experts=3, feature_dim=128)
 #   COMBINE = "weighted_softmax"
@@ -91,7 +85,7 @@ from mme.gate.random_gate import RandomGate  # placeholder default
 
 
 def build_gate():
-    return RandomGate(num_experts=3, feature_dim=32, seed=1234)  # ← swap here
+    return WalkHierGate(num_experts=3, walk_len=100, num_walks=32)
 
 
 COMBINE = "weighted_softmax"

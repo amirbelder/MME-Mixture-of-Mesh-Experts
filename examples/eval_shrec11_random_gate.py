@@ -35,7 +35,7 @@ from mme.core.moe import MMEModel
 from mme.data.mesh_dataset import MeshDataset
 from mme.experts.prerendered import PrerenderedExpert
 from mme.gate.random_gate import RandomGate
-
+from mme.gate.walk_hier_gate import WalkHierGate
 
 # ---------- SHREC-11 Split-16 configuration -------------------------------
 SHREC11_ROOT    = Path("~/shrec11_split16").expanduser()
@@ -127,12 +127,7 @@ def _build_experts() -> list:
 
 
 def _build_gate(seed: int) -> RandomGate:
-    return RandomGate(
-        num_experts=len(EXPERT_SPECS),
-        feature_dim=GATE_FEATURE_DIM,
-        hidden=GATE_HIDDEN,
-        seed=seed,
-    )
+    return WalkHierGate()
 
 
 # ==========================================================================

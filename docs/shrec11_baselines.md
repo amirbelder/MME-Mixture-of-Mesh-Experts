@@ -4,11 +4,11 @@ SHREC-11 is a small (30-class, 20 meshes per class, 600 total) mesh classificati
 
 > **Ready-made scripts**:
 > - [`examples/train_shrec11_100pct.py`](../examples/train_shrec11_100pct.py) — trains with all three plugged into MMEModel on Split-16.
-> - [`examples/eval_shrec11_random_gate.py`](../examples/eval_shrec11_random_gate.py) — **inference only**, no gate training: pretrained experts + `RandomGate` swept over N seeds (mean ± std over independent random routers). Answers "how good is the ensemble when the router doesn't know anything?"
+> - [`examples/eval_shrec11_random_gate.py`](../examples/eval_shrec11_random_gate.py) — **inference only**, no gate training: pretrained experts + `RandomGate`."
 
 > **Sanity check the URLs and numbers before you commit** — they were correct at the time of writing but repos move and paper tables sometimes get updated.
 
-## Recommended trio (all 100% on Split-16)
+## Recommended trio
 
 | Paper | Repo | Representation | SHREC-11 Split-16 (reported) |
 |---|---|---|---|
@@ -18,7 +18,7 @@ SHREC-11 is a small (30-class, 20 meshes per class, 600 total) mesh classificati
 
 They're deliberately heterogeneous: **hierarchical face-based** (SubdivNet), **transformer with masked pretraining** (MeshMAE), and **spectral** (Laplacian2Mesh). Different inductive biases → the MoE gate has a real choice to make.
 
-## Alternatives (strong but below 100% on Split-16)
+## Alternatives (strong on Split-16)
 
 Use these if you want to swap a slot for a different flavor:
 
@@ -110,11 +110,3 @@ Repeat for `MeshMAEExpert` (patch tokens) and `Laplacian2MeshExpert` (Laplacian 
 5. `python examples/train_shrec11.py` — only the gate trains; experts are frozen. Matches the reference council's `CouncilMeshNet` pattern (`load_state_dict(...); .eval()` on experts).
 6. Report gate-vs-random-gate delta as your ablation (see `docs/random_gate.md`). When the three experts already hit 100% individually, the random-gate baseline should also hit ~100% (any expert is "correct enough"), which is the honest way to report the story.
 
-### A note on "100% × 3 → what does the gate even do?"
-
-If three experts each hit 100% on the test set, any router — trained, random, coin-flip — will also hit 100%. This is a nice sanity number but not a meaningful ablation of the gate itself. To get a signal on the gate:
-
-- Report on a **harder benchmark** (SHREC-11 Split-10 or ModelNet40), where each expert is <100% and the router's choice actually matters.
-- Or **hold-out one class per expert** so no single expert is complete, and the router has to combine complementary competences.
-
-Both fit the same template — swap the dataset / expert checkpoints only.

@@ -86,7 +86,9 @@ class WalkHierGate:
         num_scales: Optional[int] = None,
         seed: int = 0,
         last_layer_activation: Optional[str] = None,
+        path: str = None,
         constant_jump_k: int = 10,
+
     ) -> None:
         self.num_experts = num_experts
         self.walk_len = walk_len
@@ -116,30 +118,32 @@ class WalkHierGate:
     # ------------------------------------------------------------------
     def _build(self, net_input_dim_: int) -> None:
         from mme.gate.walk_hier_transformer_tf import WalkHierTransformer
-
-        self._tf_model = WalkHierTransformer(
-            num_layers=self.num_layers,
-            d_model=self.d_model,
-            num_heads=self.num_heads,
-            dff=self.dff,
-            input_vocab_size=net_input_dim_,
-            out_features=self.num_experts,
-            pe_input=self.walk_len,
-            pe_target=self.walk_len,
-            num_classes=self.num_experts,
-            net_input_dim=net_input_dim_,
-            seq_len=self.walk_len,
-            last_layer_activation=self.last_layer_activation,
-            one_label_per_model=True,
-            rate=self.rate,
-            jump_every_k=self.jump_every_k,
-            pooling=self.pooling,
-            concat_xyz=self.concat_xyz,
-            num_scales=self.num_scales,
-            global_dim_mult=self.global_dim_mult,
-            recurrent=self.recurrent,
-        )
-        self._net_input_dim = net_input_dim_
+        if self.path is not None:
+            self.load_weights(self.path)
+        else:
+            self._tf_model = WalkHierTransformer(
+                num_layers=self.num_layers,
+                d_model=self.d_model,
+                num_heads=self.num_heads,
+                dff=self.dff,
+                input_vocab_size=net_input_dim_,
+                out_features=self.num_experts,
+                pe_input=self.walk_len,
+                pe_target=self.walk_len,
+                num_classes=self.num_experts,
+                net_input_dim=net_input_dim_,
+                seq_len=self.walk_len,
+                last_layer_activation=self.last_layer_activation,
+                one_label_per_model=True,
+                rate=self.rate,
+                jump_every_k=self.jump_every_k,
+                pooling=self.pooling,
+                concat_xyz=self.concat_xyz,
+                num_scales=self.num_scales,
+                global_dim_mult=self.global_dim_mult,
+                recurrent=self.recurrent,
+            )
+            self._net_input_dim = net_input_dim_
 
     # ------------------------------------------------------------------
     def parameters(self):

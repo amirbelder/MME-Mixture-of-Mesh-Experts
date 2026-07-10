@@ -1,4 +1,4 @@
-"""SHREC-11 Split-16 (16 train / 4 test) with three 100%-accuracy.
+"""SHREC-11 Split-16 (16 train / 4 test) with three expertes.
 
 Experts:
     - SubdivNet         (Hu et al., SIGGRAPH 2022)   env/subdivnet/

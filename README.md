@@ -1,4 +1,4 @@
-# MME — Mixture of Mesh Experts (template)
+# MME - Mixture of Mesh Experts 
 
 Reference implementation for the paper **"MME: Mixture of Mesh Experts with Random Walk Transformer Gating"** (Belder & Tal).
 

@@ -87,10 +87,14 @@ mme eval  --config configs/my_config.yaml --ckpt runs/my_council/epoch_099.pt
 ## Citation
 
 ```bibtex
-@article{belder_tal_mme,
-  title   = {MME: Mixture of Mesh Experts with Random Walk Transformer Gating},
-  author  = {Belder, Amir and Tal, Ayellet},
-  year    = {2025},
+@misc{belder2026mmemixturemeshexperts,
+      title={MME: Mixture of Mesh Experts with Random Walk Transformer Gating}, 
+      author={Amir Belder and Ayellet Tal},
+      year={2026},
+      eprint={2603.00828},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2603.00828}, 
 }
 ```
 
